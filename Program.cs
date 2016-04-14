@@ -125,6 +125,7 @@ namespace findbigfiles {
                     try {
                         FileInfo fi = new FileInfo(cfile);
                         FileData fd;
+                        if (fi.Attributes.HasFlag(FileAttributes.ReparsePoint)) continue;
                         fd.Path = cfile;
                         fd.Size = fi.Length;
                         if (minSize > 0 && fd.Size < minSize) continue;
@@ -140,6 +141,8 @@ namespace findbigfiles {
             }
             foreach (string cdir in Directory.EnumerateDirectories(dirname)) {
                 if (!Directory.Exists(cdir)) continue;
+                DirectoryInfo di = new DirectoryInfo(cdir);
+                if (di.Attributes.HasFlag(FileAttributes.ReparsePoint)) continue;
                 TraverseDir(cdir);
             }
         }
