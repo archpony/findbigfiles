@@ -62,7 +62,7 @@ namespace findbigfiles {
         
         private static void PrintHelp() 
         {
-            System.Console.Out.WriteLine("Usage: findbigfiles -dir=<path> [-size=<XX>] [-time=<XX><m|h|d|w>]");
+            System.Console.Out.WriteLine("Usage: findbigfiles -dir=<path> [-size=<XX>] [-time=<XX><m|h|d|w>] [-exec=\"a command line\"]");
         }
 
         
