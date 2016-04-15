@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 
 namespace findbigfiles {
     struct FileData {
@@ -31,10 +32,30 @@ namespace findbigfiles {
                 fw.Checkers.Add(tm);
             }
 
+            CmdBuilder cb = null;
+            if (ad.ContainsKey("-exec")) {
+                cb = new CmdBuilder(ad["-exec"]);
+            }
+
             fw.TraverseDir(ad["-dir"]);
-            
-            foreach (FileData fd in fw.FoundFiles.OrderBy(o => o.Size)) {
-                Console.WriteLine("{0}\t{1}", fd.Path, Utils.FormatSize(fd.Size));
+
+            if (cb == null) {
+                foreach (FileData fd in fw.FoundFiles.OrderBy(o => o.Size)) {
+                    Console.WriteLine("{0}\t{1}", fd.Path, Utils.FormatSize(fd.Size));
+                }
+            } else {
+                foreach (FileData fd in fw.FoundFiles) {
+                    Process p = new Process();
+                    ProcessStartInfo si = new ProcessStartInfo();
+                    si.FileName = "cmd.exe";
+                    si.Arguments = "/c " + cb.Build(fd.Path);
+                    si.UseShellExecute = false;
+                    si.WindowStyle = ProcessWindowStyle.Hidden;
+                    si.WorkingDirectory = Directory.GetCurrentDirectory();
+                    p.StartInfo = si;
+                    p.Start();
+                    p.WaitForExit();
+                }
             }
         }
 

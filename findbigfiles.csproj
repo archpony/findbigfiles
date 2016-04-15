@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CmdBuilder.cs" />
     <Compile Include="FileChecker.cs" />
     <Compile Include="FileWalker.cs" />
     <Compile Include="Program.cs" />
