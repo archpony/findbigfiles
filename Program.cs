@@ -47,8 +47,8 @@ namespace findbigfiles {
                 foreach (FileData fd in fw.FoundFiles) {
                     Process p = new Process();
                     ProcessStartInfo si = new ProcessStartInfo();
-                    si.FileName = "cmd.exe";
-                    si.Arguments = "/c " + cb.Build(fd.Path);
+					si.FileName = cb.AppName;
+                    si.Arguments = cb.Build(fd.Path);
                     si.UseShellExecute = false;
                     si.WindowStyle = ProcessWindowStyle.Hidden;
                     si.WorkingDirectory = Directory.GetCurrentDirectory();
